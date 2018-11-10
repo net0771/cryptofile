@@ -1,0 +1,16 @@
+cd $HOME
+git clone https://github.com/IBM-Blockchain/marbles.git --depth 1
+cd marbles
+
+npm install
+
+cd $HOME/marbles/scripts
+node install_chaincode.js
+node instantiate_chaincode.js
+
+cd $HOME/marbles
+sudo npm install gulp -g
+npm install
+
+gulp marbles_local
+
