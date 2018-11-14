@@ -7,8 +7,15 @@ candidates = {"0xb7778275F81fC85D4030752aE9dfbbaD66629C6d": "candidate-1",
               "0xB8f3018A53e8CC8eb88bf24d588e6609C2ae9794": "candidate-3"};
 
 function voteForCandidate() {
-
-}   
+  candidateName = $("#candidate").val();
+  
+  contractInstance.voteForCandidate(candidateName, {gas: 140000, from: web3.eth.accounts[0]}, function() {
+    let div_id = candidates[candidateName];
+    let toalVote = contractInstance.totalVotesFor.call(candidateName).toString();
+    $("#" + div_id).html(toalVote);
+    console.log("#" + candidateName +" has been voted [" + toalVote + "].");
+  });
+}
 
 $(document).ready(function(){
     candidateNames = Object.keys(candidates);
