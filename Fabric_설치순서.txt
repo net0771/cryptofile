@@ -1,0 +1,40 @@
+VSCode
+ - Ubuntu 접속: 
+ - ssh -R 52698:localhost:52698 user_id@127.0.0.1
+
+Ubuntu 
+ - VS Code로 파일 전송
+ - rmate -p 52698 파일명
+ 
+1. curl 
+2. pyhton
+	$ sudo apt-get install python
+3. docker 
+	$ curl -fsSL https://get.docker.com/ | sudo sh
+	$ sudo usermod -aG docker $(whoami)
+4. docker-compose
+	$ sudo apt-get update
+	$ sudo apt-get upgrade
+	$ sudo add-apt-repository universe
+	$ sudo apt-get install -y docker-compose
+	$ docker --version (17)
+	$ docker-compose --version (14)
+	$ docker-images
+	(Permission denied -> logout)
+	$ which go (확인 후 위치 다르면 해당 위치 삭제)
+		
+	
+4. golang
+	$ wget https://dl.google.com/go/go1.10.linux-amd64.tar.gz
+	$ sudo tar -xvf go1.10.linux-amd64.tar.gz
+	$ sudo mv go /usr/local
+	$ export GOROOT=/usr/local/go
+	$ go version (1.10 확인)
+
+5. nodejs (8.x)
+	$ curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash - 
+	$ sudo apt-get install -y nodejs
+	
+6. hyperledger fabric
+	$ curl -sSL http://bit.ly/2ysbOFE | bash -s 1.3.0
+	
