@@ -29,6 +29,7 @@ Ubuntu
 	$ sudo tar -xvf go1.10.linux-amd64.tar.gz
 	$ sudo mv go /usr/local
 	$ export GOROOT=/usr/local/go
+	$ export PATH=$PATH:$GOROOT/bin:
 	$ go version (1.10 확인)
 
 5. nodejs (8.x)

@@ -1,0 +1,18 @@
+# 인증서 생성 
+$ ../bin/cryptogen generate --config=./crypto-config.yaml
+
+# Orderer genesis block 생성
+$ FABRIC_CFG_PATH=$PWD
+$ ../bin/configtxgen -profile TwoOrgsOrdererGenesis -channelID byfn-sy
+s-channel -outputBlock ./channel-artifacts/genesis.block
+
+# Channel Transaction artifacts 생성
+$ export CHANNEL_NAME=mychannel
+$ ../bin/configtxgen -profile TwoOrgsChannel -outputCreateChannelTx ./
+channel-artifacts/channel.tx -channelID $CHANNEL_NAME
+
+# Org1, Org2에 Anchor Peer artifacts 생성
+$ ../bin/configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate
+./channel-artifacts/Org1MSPanchors.tx -channelID $CHANNEL_NAME -asOrg Org1MSP
+$ ../bin/configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate
+./channel-artifacts/Org2MSPanchors.tx -channelID $CHANNEL_NAME -asOrg Org2MSP
