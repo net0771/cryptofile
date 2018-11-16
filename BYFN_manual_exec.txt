@@ -4,19 +4,15 @@ $ ../bin/cryptogen generate --config=./crypto-config.yaml
 
 # Orderer genesis block 생성
 $ FABRIC_CFG_PATH=$PWD
-$ ../bin/configtxgen -profile TwoOrgsOrdererGenesis -channelID byfn-sy
-s-channel -outputBlock ./channel-artifacts/genesis.block
+$ ../bin/configtxgen -profile TwoOrgsOrdererGenesis -channelID byfn-sys-channel -outputBlock ./channel-artifacts/genesis.block
 
 # Channel Transaction artifacts 생성
 $ export CHANNEL_NAME=mychannel
-$ ../bin/configtxgen -profile TwoOrgsChannel -outputCreateChannelTx ./
-channel-artifacts/channel.tx -channelID $CHANNEL_NAME
+$ ../bin/configtxgen -profile TwoOrgsChannel -outputCreateChannelTx ./channel-artifacts/channel.tx -channelID $CHANNEL_NAME
 
 # Org1, Org2에 Anchor Peer artifacts 생성
-$ ../bin/configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate
-./channel-artifacts/Org1MSPanchors.tx -channelID $CHANNEL_NAME -asOrg Org1MSP
-$ ../bin/configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate
-./channel-artifacts/Org2MSPanchors.tx -channelID $CHANNEL_NAME -asOrg Org2MSP
+$ ../bin/configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate ./channel-artifacts/Org1MSPanchors.tx -channelID $CHANNEL_NAME -asOrg Org1MSP
+$ ../bin/configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate ./channel-artifacts/Org2MSPanchors.tx -channelID $CHANNEL_NAME -asOrg Org2MSP
 
 # Network 기동
 $ docker-compose -f docker-compose-cli.yaml up -d
@@ -27,27 +23,46 @@ $ docker exec -it cli bash
 # export CHANNEL_NAME=mychannel
 # peer channel create -o orderer.example.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/channel.tx --tls $CORE_PEER_TSL_ENABLED --cafile  /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
 
-
+## join peers
 ## peer0.org1
 CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
 CORE_PEER_ADDRESS=peer0.org1.example.com:7051
 CORE_PEER_LOCALMSPID="Org1MSP"
 CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
+peer channel join -b mychannel.block
 
 ## peer1.org1
 CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
 CORE_PEER_ADDRESS=peer1.org1.example.com:7051
 CORE_PEER_LOCALMSPID="Org1MSP"
 CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/tls/ca.crt
+peer channel join -b mychannel.block
 
 ## peer0.org2
 CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp
 CORE_PEER_ADDRESS=peer0.org2.example.com:7051
 CORE_PEER_LOCALMSPID="Org2MSP"
 CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt
+peer channel join -b mychannel.block
 
 ## peer1.org2
 CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp
 CORE_PEER_ADDRESS=peer1.org2.example.com:7051
 CORE_PEER_LOCALMSPID="Org2MSP"
 CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls/ca.crt
+peer channel join -b mychannel.block
+
+## update anchor peer info
+# anchor1
+peer channel update -o orderer.example.com:7050 -c mychannel -f ./channel-artifacts/Org1MSPanchors.tx --tls $CORE_PEER_TSL_ENABLED --cafile  /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
+
+# anchor2
+peer channel update -o orderer.example.com:7050 -c mychannel -f ./channel-artifacts/Org2MSPanchors.tx --tls $CORE_PEER_TSL_ENABLED --cafile  /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
+
+
+
+
+
+
+
+
