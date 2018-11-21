@@ -1,3 +1,16 @@
+export CORE_PEER_ADDRESS=peer0.org1.example.com:7051
+peer chaincode install -n marblesp -v 1.0 -p github.com/chaincode/marbles02_private/go/
+
+export CORE_PEER_ADDRESS=peer1.org1.example.com:7051
+peer chaincode install -n marblesp -v 1.0 -p github.com/chaincode/marbles02_private/go/
+
+export CORE_PEER_ADDRESS=peer0.org2.example.com:7051
+peer chaincode install -n marblesp -v 1.0 -p github.com/chaincode/marbles02_private/go/
+
+export CORE_PEER_ADDRESS=peer1.org2.example.com:7051
+peer chaincode install -n marblesp -v 1.0 -p github.com/chaincode/marbles02_private/go/
+
+
 # Org2 전환
 export CORE_PEER_LOCALMSPID=Org2MSP 
 export PEER0_ORG2_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt 
@@ -15,11 +28,8 @@ export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric
 export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp 
 export PEER0_ORG1_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt 
 
-peer chaincode invoke -o orderer.example.com:7050 --tls –cafile \
-		/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/\
-		ordererOrganizations/example.com/orderers/orderer.example.com/\
-		msp/tlscacerts/tlsca.example.com-cert.pem -C mychannel -n marblesp \
-		-c '{"Args":["initMarble","marble1","blue","35","tom","99"]}' 
+peer chaincode invoke -o orderer.example.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C mychannel -n marblesp -c '{"Args":["initMarble","marble1","blue","35","tom","99"]}'
+
 		
 # Switch Org2
 export CORE_PEER_ADDRESS=peer0.org2.example.com:7051
@@ -36,11 +46,7 @@ export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG2_CA
 export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
 
 # Create marble
-peer chaincode invoke -o orderer.example.com:7050 --tls –cafile \
-	/opt/gopath/src/github.com/hyperledger/fabric/peer/\
-	crypto/ordererOrganizations/example.com/orderers/orderer.example.com/\
-	msp/tlscacerts/tlsca.example.com-cert.pem -C mychannel -n marblesp \
-	-c '{"Args":["initMarble","marble2","blue","35","tom","99"]}'		
+peer chaincode invoke -o orderer.example.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C mychannel -n marblesp -c '{"Args":["initMarble","marble2","blue","35","tom","99"]}'
 
 # Query marble
 peer chaincode query -C mychannel -n marblesp \
@@ -48,8 +54,4 @@ peer chaincode query -C mychannel -n marblesp \
 
 
 # Transfer marble
-peer chaincode invoke -o orderer.example.com:7050 --tls –cafile \
-	/opt/gopath/src/github.com/hyperledger/fabric/peer/\
-	crypto/ordererOrganizations/example.com/orderers/orderer.example.com/\
-	msp/tlscacerts/tlsca.example.com-cert.pem -C mychannel -n marblesp \
-	-c '{"Args":[“transferMatble","marble2",“joe"]}'	
+peer chaincode invoke -o orderer.example.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C mychannel -n marblesp -c '{"Args":["transferMarble","marble2","tom"]}'

@@ -1,0 +1,16 @@
+# install for upgrade
+export CORE_PEER_ADDRESS=peer0.org1.example.com:7051
+peer chaincode install -n marblesp -v 2.0 -p github.com/chaincode/marbles03_private/go/
+
+export CORE_PEER_ADDRESS=peer1.org1.example.com:7051
+peer chaincode install -n marblesp -v 2.0 -p github.com/chaincode/marbles03_private/go/
+
+export CORE_PEER_ADDRESS=peer0.org2.example.com:7051
+peer chaincode install -n marblesp -v 2.0 -p github.com/chaincode/marbles03_private/go/
+
+export CORE_PEER_ADDRESS=peer1.org2.example.com:7051
+peer chaincode install -n marblesp -v 2.0 -p github.com/chaincode/marbles03_private/go/
+
+# upgrade execute
+export ORDERER_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem 
+peer chaincode upgrade -o orderer.example.com:7050 --tls --cafile $ORDERER_CA -C channel -n marblesp -v 2.0 -c '{"Args":["init"]}' -P "OR('Org1MSP.member','Org2MSP.member')" --collections-config $GOPATH/src/github.com/chaincode/marbles03_private/collections_config.json
