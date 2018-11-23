@@ -29,7 +29,7 @@ Ubuntu
 	(Permission denied 발생하면 -> logout -> login)
 5. golang
 	$ wget https://dl.google.com/go/go1.10.linux-amd64.tar.gz (64)
-	$ wget wget https://dl.google.com/go/go1.10.linux-386.tar.gz (32)
+	$ wget https://dl.google.com/go/go1.10.linux-386.tar.gz (32)
 	$ sudo tar -xvf go1.10.linux-amd64.tar.gz
 	$ sudo mv go /usr/local
 	$ export GOROOT=/usr/local/go
@@ -42,8 +42,7 @@ Ubuntu
 	$ sudo apt-get update
 	$ sudo apt-get upgrade
 	$ sudo apt-get install -y nodejs
-	$ node --version (확인)
-	
+	$ node --version (확인)	
 7. hyperledger fabric
 	$ curl -sSL http://bit.ly/2ysbOFE | bash -s 1.3.0
 	$ cd fabcar (fabcar 디렉토리로 이동)
