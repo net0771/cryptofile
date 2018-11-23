@@ -3,8 +3,13 @@ VSCode
  - ssh -R 52698:localhost:52698 user_id@127.0.0.1
 
 Ubuntu 
- - VS Code로 파일 전송
- - rmate -p 52698 파일명
+ # Plug-in 설치
+ $wget https://raw.githubusercontent.com/sclukey/rmate-python/master/bin/rmate
+ $ chmod +x ./rmate
+ $ mv ./rmate /usr/local/bin/rmate
+
+ # VS Code로 파일 전송
+ $ rmate -p 52698 파일명
  
 1. curl 
 2. pyhton
