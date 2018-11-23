@@ -25,7 +25,7 @@ Ubuntu
 	$ sudo apt-get install -y docker-compose
 	$ docker --version (17확인)
 	$ docker-compose --version (1.8확인)
-	($ docker-images)
+	$ docker images
 	(Permission denied 발생하면 -> logout -> login)
 5. golang
 	$ wget https://dl.google.com/go/go1.10.linux-amd64.tar.gz (64)
