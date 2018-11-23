@@ -12,12 +12,12 @@ Ubuntu
 3. docker 
 	$ curl -fsSL https://get.docker.com/ | sudo sh
 	$ sudo usermod -aG docker $(whoami)
-	(** 32bit Ubuntu 경우)
-		(apt-get install docker.io)
-		$ sudo apt-get -y install git linux-image-extra-$(uname -r) lxc xz-utils 
-		$ git clone https://github.com/docker-32bit/ubuntu.git 
-		$ cd ubuntu 
-		$ sudo ./build-image.sh 
+	(** 32bit Ubuntu 경우- 아래 2가지 방법 중 하나)
+		1. $ apt-get install docker.io)
+		2. $ sudo apt-get -y install git linux-image-extra-$(uname -r) lxc xz-utils 
+		   $ git clone https://github.com/docker-32bit/ubuntu.git 
+		   $ cd ubuntu 
+		   $ sudo ./build-image.sh 
 4. docker-compose
 	$ sudo apt-get update
 	$ sudo apt-get upgrade
